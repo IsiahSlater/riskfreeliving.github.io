@@ -1,7 +1,7 @@
 # HackUIowa
 ## Current Idea:
   Combine data about water, heat, natural risks with mapbox to show risk of living there in the future (Mapbox, US Climate Resilience Tookkit, UI Path)
-  ###Implementations: 
+### Implementations: 
   - [] Basic Website (HTML, CSS)
   - [] Draw data from APIs (JS)
   - [] Create searchable database from API
