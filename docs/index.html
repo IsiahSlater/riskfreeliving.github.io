@@ -61,6 +61,19 @@
                 document.getElementById('pd').innerHTML = '<p>Hover over a city</p>';
               }
           });
+          /*hurricanes*/
+          map.on('mouseover', 'hurricanes', function(e) {
+            map.getCanvas().style.cursor = 'pointer';
+            var splash = map.queryRenderedFeatures(e.point, {
+              layers: ['hurricanes']
+            });
+            if (splash.length > 0) {
+             document.getElementById('hd').innerHTML = '<h2>Hurricane Touchdown</h2>';
+             document.getElementById('pd').innerHTML = '<h3><strong>' + splash[0].properties.Project_Na + '</strong></h3><p><strong><em>';
+              } else {
+                document.getElementById('pd').innerHTML = '<p>Hover over a city</p>';
+              }
+          });
             /*Earthquake hover display*/
           map.on('mouseover', 'earthquakes', function(e) {
             map.getCanvas().style.cursor = 'pointer';
