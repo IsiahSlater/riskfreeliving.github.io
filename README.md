@@ -5,7 +5,7 @@
 ### Implementations: 
   - [x] Basic Website (HTML, CSS)
   - [x] Draw data from Mapbox API (JS)
-  - [ ] Merge several graphs 
+  - [x] Merge several graphs 
   - [ ] Use buttons to select what dangers are displayed
 
 ## Resources Used:
