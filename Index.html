@@ -5,16 +5,58 @@
     <title>"Hello World"</title>
     <script src='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet' />
-    <script src="Main.js" type="text/text/javascript"></script>
+    <link href="Main.css" rel="stylesheet" />
   </head>
   <body>
-    <div id='map' style='width: 100%; height: 70%;' onload="loadMap()">Hello World</div>
+
+    <div id='map' style='width: 100%; height: auto;'></div>
+
+    <div class="map-overlay" id="features">
+      <h2>Pollution Rate</h2>
+      <div id="pd">
+        <p>Hover over a city</p>
+      </div>
+    </div>
+    <div class="map-overlay" id="legend">
+    </div>
     <script>
       mapboxgl.accessToken = 'pk.eyJ1IjoiaXNzbGF0ZXIxODIiLCJhIjoiY2sxbnIwM2ZrMGVnYzNwcGtqN2xtMTVkbyJ9.jV4Fno7zzYI-HWSxygDdUg';
       var map = new mapboxgl.Map({
         container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11'
-      });
+        style: "mapbox://styles/isslater182/ck1o6kzkh1irl1cowgwjkumuj"
+          });
+        map.on('load', function(){
+          var layers = ['0-20', '20-50', '50-100', '100-200', '200-500', '500-1000'];
+          var colors = ['#edbbd5', '#ea7676', '#eb6ba9', '#e63365', '#ae1313', '#810303'];
+          for (i = 0; i < layers.length; i++) {
+            var layer = layers[i];
+            var color = colors[i];
+            var item = document.createElement('div');
+            var key = document.createElement('span');
+            key.className = 'legend-key';
+            key.style.backgroundColor = color;
+
+            var value = document.createElement('span');
+            value.innerHTML = layer;
+            item.appendChild(key);
+            item.appendChild(value);
+            legend.appendChild(item);
+          }
+
+          map.on('mouseover', 'citydata', function(e) {
+            map.getCanvas().style.cursor = 'pointer';
+            var pollution = map.queryRenderedFeatures(e.point, {
+              layers: ['citydata']
+            });
+            if (pollution.length > 0) {
+             document.getElementById('pd').innerHTML = '<h3><strong>' + pollution[0].properties.city + '</strong></h3><p><strong><em>' + pollution[0].properties.mean + '</strong> pollution</em></p>';
+                document.getElementById('pd').innerHTML = title;
+              } else {
+                document.getElementById('pd').innerHTML = '<p>Hover over a city</p>';
+              }
+
+          });
+        });
     </script>
   </body>
 </html>
