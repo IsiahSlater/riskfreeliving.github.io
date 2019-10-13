@@ -1,10 +1,12 @@
 # HackUIowa
-## Current Idea:
+### By: Victor Wei, Trà My, Isiah Slater, and Shreeya Rupakheti
+## Premise:
   Combine data about water, heat, natural risks with mapbox to show risk of living there in the future
 ### Implementations: 
   - [x] Basic Website (HTML, CSS)
   - [x] Draw data from Mapbox API (JS)
-  - [ ] Create searchable database from API
+  - [ ] Merge several graphs 
+  - [ ] Use buttons to select what dangers are displayed
 
 ## Resources Used:
 * [MapBox](https://www.mapbox.com/)
