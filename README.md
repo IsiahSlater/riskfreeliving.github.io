@@ -6,7 +6,7 @@
   - [x] Basic Website (HTML, CSS)
   - [x] Draw data from Mapbox API (JS)
   - [x] Merge several graphs 
-  - [ ] Use buttons to select what dangers are displayed
+  - [x] Use buttons to select what dangers are displayed
 
 ## Resources Used:
 * [MapBox](https://www.mapbox.com/)
