@@ -45,12 +45,12 @@
           legend.appendChild(item);
         }
         /*Display Pollution data on hover*/
-        map.on('mouseover', 'Pollution', function(e) {
+        map.on('mouseover', 'pollution', function(e) {
           map.getCanvas().style.cursor = 'pointer';
-          var pollution = map.queryRenderedFeatures(e.point, { layers: ['Pollution'] });
-          if (pollution.length > 0) {
+          var smog = map.queryRenderedFeatures(e.point, { layers: ['pollution'] });
+          if (smog.length > 0) {
            document.getElementById('hd').innerHTML = '<h2>Pollution</h2>';
-           document.getElementById('pd').innerHTML = '<h3><strong>' + pollution[0].properties.city + '</strong></h3><p><strong><em>' + pollution[0].properties.mean + '</strong> μg/m³</em></p>';
+           document.getElementById('pd').innerHTML = '<h3><strong>' + smog[0].properties.city + '</strong></h3><p><strong><em>' + smog[0].properties.mean + '</strong> μg/m³</em></p>';
             } else {
               document.getElementById('pd').innerHTML = '<p>Hover over a city</p>';
             }
@@ -102,7 +102,7 @@
         });
 
         /*store all mapbox layers into an array*/
-        var toggleableLayerIds = [ 'Pollution', 'volcano', 'hurricanes', 'earthquakes', 'flood' ];
+        var toggleableLayerIds = [ 'pollution', 'volcano', 'hurricanes', 'earthquakes', 'flood' ];
 
         /*create buttons that toggle each layer's visibility*/
         for (var i = 0; i < toggleableLayerIds.length; i++) {
