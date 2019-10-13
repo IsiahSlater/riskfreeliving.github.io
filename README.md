@@ -4,7 +4,7 @@
 ### Implementations: 
   - [x] Basic Website (HTML, CSS)
   - [x] Draw data from Mapbox API (JS)
-  - [] Create searchable database from API
+  - [ ] Create searchable database from API
 
 ## Resources Used:
 * [MapBox](https://www.mapbox.com/)
