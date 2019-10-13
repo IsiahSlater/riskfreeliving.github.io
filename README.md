@@ -21,4 +21,4 @@
 * JavaScript
 * GL JS
 
-## [Our Website Can Be Found Here!](www.riskfreeliving.space)
+## [Our Website Can Be Found Here!](riskfreeliving.space)
