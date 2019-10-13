@@ -1,5 +1,5 @@
 # HackUIowa
-### By: Victor Wei, Trà My, Isiah Slater, and Shreeya Rupakheti
+### By: Victor Wei, Trà My, Isiah Slater, and Murtuza Sarwat Taqi
 ## Premise:
   Combine data about water, heat, natural risks with mapbox to show risk of living there in the future
 ### Implementations: 
