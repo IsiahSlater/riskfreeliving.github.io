@@ -1,7 +1,11 @@
-function loadMap(){
-  mapboxgl.accessToken = 'pk.eyJ1IjoiaXNzbGF0ZXIxODIiLCJhIjoiY2sxbnIwM2ZrMGVnYzNwcGtqN2xtMTVkbyJ9.jV4Fno7zzYI-HWSxygDdUg';
-  var map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/isslater182/ck1nsy8vj169z1cqa977byyf3'
-  });
+function toggleVisible(e)
+{
+  /*var element = map.queryRenderedFeatures(e.point, {
+    layers: ['citydata']*/
+    var visibility = map.getLayoutProperty(e, 'visibility');
+    if (visibility === 'visible') {
+      map.setLayoutProperty(e, 'visibility', 'none');
+    } else {
+      map.setLayoutProperty(e, 'visibility', 'visible');
+    }
 }

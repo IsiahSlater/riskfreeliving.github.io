@@ -8,11 +8,16 @@
     <link href="Main.css" rel="stylesheet" />
   </head>
   <body>
-
+    <div class="buttons">
+      <input type="checkbox" onclick="toggleVisible(earthquakes)" name="disaster1" value="Earthquake"> Earthquake
+      <input type="checkbox" onclick="toggleVisible(flood)" name="disaster2" value="Flood"> Flood
+      <input type="checkbox" onclick="toggleVisible(citydata)" name="disaster3" value="Pollution"> Pollution
+      <input type="checkbox" onclick="toggleVisible(volcano)" name="disaster4" value="Volcano"> Volcano
+    </div>
     <div id='map' style='width: 100%; height: auto;'></div>
 
     <div class="map-overlay" id="features">
-      <h2>Pollution Rate</h2>
+      <h2 id="hd">Living Hazards</h2>
       <div id="pd">
         <p>Hover over a city</p>
       </div>
@@ -25,9 +30,10 @@
         container: 'map',
         style: "mapbox://styles/isslater182/ck1o6kzkh1irl1cowgwjkumuj"
           });
+
         map.on('load', function(){
-          var layers = ['0-20', '20-50', '50-100', '100-200', '200-500', '500-1000'];
-          var colors = ['#edbbd5', '#ea7676', '#eb6ba9', '#e63365', '#ae1313', '#810303'];
+          var layers = ['μg/m³', '< 0', '0-50', '50-100', '100-200', '200-500', '500-1000', '1000 +'];
+          var colors = [' ','#999edb', '#6441e1', '#771cb0', '#ff33d3', '#ff3333', '#ffa333', '#cec409'];
           for (i = 0; i < layers.length; i++) {
             var layer = layers[i];
             var color = colors[i];
@@ -40,21 +46,59 @@
             value.innerHTML = layer;
             item.appendChild(key);
             item.appendChild(value);
-            legend.appendChild(item);
+            legend.appendChild(item); 
           }
-
+            /*Pollution hover display*/
           map.on('mouseover', 'citydata', function(e) {
             map.getCanvas().style.cursor = 'pointer';
             var pollution = map.queryRenderedFeatures(e.point, {
               layers: ['citydata']
             });
             if (pollution.length > 0) {
-             document.getElementById('pd').innerHTML = '<h3><strong>' + pollution[0].properties.city + '</strong></h3><p><strong><em>' + pollution[0].properties.mean + '</strong> pollution</em></p>';
-                document.getElementById('pd').innerHTML = title;
+             document.getElementById('hd').innerHTML = '<h2>Pollution</h2>';
+             document.getElementById('pd').innerHTML = '<h3><strong>' + pollution[0].properties.city + '</strong></h3><p><strong><em>' + pollution[0].properties.mean + '</strong> μg/m³</em></p>';
               } else {
                 document.getElementById('pd').innerHTML = '<p>Hover over a city</p>';
               }
-
+          });
+            /*Earthquake hover display*/
+          map.on('mouseover', 'earthquakes', function(e) {
+            map.getCanvas().style.cursor = 'pointer';
+            var earthq = map.queryRenderedFeatures(e.point, {
+              layers: ['earthquakes']
+            });
+            if (earthq.length > 0) {
+              document.getElementById('hd').innerHTML = '<h2>Earthquake</h2>'
+             document.getElementById('pd').innerHTML = '<h3><strong>' + earthq[0].properties.place + '</strong></h3><p><strong><em>' + earthq[0].properties.mag + '</strong> magnitude </em></p>';
+              } else {
+                document.getElementById('pd').innerHTML = '<p>Hover over a city</p>';
+              }
+          });
+            /*Volcano hover display*/
+          map.on('mouseover', 'volcano', function(e) {
+            map.getCanvas().style.cursor = 'pointer';
+            var eruptions = map.queryRenderedFeatures(e.point, {
+              layers: ['volcano']
+            });
+            if (eruptions.length > 0) {
+              document.getElementById('hd').innerHTML = '<h2>Volcano</h2>'
+             document.getElementById('pd').innerHTML = '<h3><strong>' + eruptions[0].properties.Subregion + '</strong></h3><p><strong><em>' + eruptions[0].properties.H_active + '</strong> active </em></p>';
+              } else {
+                document.getElementById('pd').innerHTML = '<p>Hover over a city</p>';
+              }
+          });
+          /*Flood hover display*/
+          map.on('mouseover', 'flood', function(e) {
+            map.getCanvas().style.cursor = 'pointer';
+            var water = map.queryRenderedFeatures(e.point, {
+              layers: ['flood']
+            });
+            if (water.length > 0) {
+              document.getElementById('hd').innerHTML = '<h2>Flood</h2>'
+             document.getElementById('pd').innerHTML = '<h3><strong> ID ' + water[0].properties.FLD_AR_ID + '</strong></h3><p><strong><em>' + water[0].properties.SHAPE_Area + '</strong> Ft² </em></p>';
+              } else {
+                document.getElementById('pd').innerHTML = '<p>Hover over a city</p>';
+              }
           });
         });
     </script>
