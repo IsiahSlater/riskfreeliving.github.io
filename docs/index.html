@@ -2,71 +2,63 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>"Hello World"</title>
+    <title>The Risk Map</title>
     <script src='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet' />
     <link href="Main.css" rel="stylesheet" />
   </head>
   <body>
-    <div class="buttons">
-      <input type="checkbox" onclick="toggleVisible(earthquakes)" name="disaster1" value="Earthquake"> Earthquake
-      <input type="checkbox" onclick="toggleVisible(flood)" name="disaster2" value="Flood"> Flood
-      <input type="checkbox" onclick="toggleVisible(citydata)" name="disaster3" value="Pollution"> Pollution
-      <input type="checkbox" onclick="toggleVisible(volcano)" name="disaster4" value="Volcano"> Volcano
-    </div>
+    <nav id="menu"></nav>
     <div id='map' style='width: 100%; height: auto;'></div>
-
     <div class="map-overlay" id="features">
       <h2 id="hd">Living Hazards</h2>
       <div id="pd">
         <p>Hover over a city</p>
       </div>
     </div>
-    <div class="map-overlay" id="legend">
-    </div>
+    <div class="map-overlay" id="legend"></div>
     <script>
+    /*link mapbox to the html*/
       mapboxgl.accessToken = 'pk.eyJ1IjoiaXNzbGF0ZXIxODIiLCJhIjoiY2sxbnIwM2ZrMGVnYzNwcGtqN2xtMTVkbyJ9.jV4Fno7zzYI-HWSxygDdUg';
       var map = new mapboxgl.Map({
         container: 'map',
         style: "mapbox://styles/isslater182/ck1o6kzkh1irl1cowgwjkumuj"
-          });
+      });
 
-        map.on('load', function(){
-          var layers = ['μg/m³', '< 0', '0-50', '50-100', '100-200', '200-500', '500-1000', '1000 +'];
-          var colors = [' ','#999edb', '#6441e1', '#771cb0', '#ff33d3', '#ff3333', '#ffa333', '#cec409'];
-          for (i = 0; i < layers.length; i++) {
-            var layer = layers[i];
-            var color = colors[i];
-            var item = document.createElement('div');
-            var key = document.createElement('span');
-            key.className = 'legend-key';
-            key.style.backgroundColor = color;
+      /*on loading, display a legend for the pollution numerics*/
+      map.on('load', function(){
+        var layers = ['μg/m³', '< 0', '0-50', '50-100', '100-200', '200-500', '500-1000', '1000 +'];
+        var colors = [' ','#999edb', '#6441e1', '#771cb0', '#ff33d3', '#ff3333', '#ffa333', '#cec409'];
+        for (i = 0; i < layers.length; i++) {
+          var layer = layers[i];
+          var color = colors[i];
+          var item = document.createElement('div');
+          var key = document.createElement('span');
+          key.className = 'legend-key';
+          key.style.backgroundColor = color;
 
-            var value = document.createElement('span');
-            value.innerHTML = layer;
-            item.appendChild(key);
-            item.appendChild(value);
-            legend.appendChild(item);
-          }
-            /*Pollution hover display*/
-          map.on('mouseover', 'citydata', function(e) {
-            map.getCanvas().style.cursor = 'pointer';
-            var pollution = map.queryRenderedFeatures(e.point, {
-              layers: ['citydata']
-            });
-            if (pollution.length > 0) {
-             document.getElementById('hd').innerHTML = '<h2>Pollution</h2>';
-             document.getElementById('pd').innerHTML = '<h3><strong>' + pollution[0].properties.city + '</strong></h3><p><strong><em>' + pollution[0].properties.mean + '</strong> μg/m³</em></p>';
-              } else {
-                document.getElementById('pd').innerHTML = '<p>Hover over a city</p>';
-              }
-          });
-          /*hurricanes*/
+          /*create color code on legend*/
+          var value = document.createElement('span');
+          value.innerHTML = layer;
+          item.appendChild(key);
+          item.appendChild(value);
+          legend.appendChild(item);
+        }
+        /*Display Pollution data on hover*/
+        map.on('mouseover', 'citydata', function(e) {
+          map.getCanvas().style.cursor = 'pointer';
+          var pollution = map.queryRenderedFeatures(e.point, { layers: ['citydata'] });
+          if (pollution.length > 0) {
+           document.getElementById('hd').innerHTML = '<h2>Pollution</h2>';
+           document.getElementById('pd').innerHTML = '<h3><strong>' + pollution[0].properties.city + '</strong></h3><p><strong><em>' + pollution[0].properties.mean + '</strong> μg/m³</em></p>';
+            } else {
+              document.getElementById('pd').innerHTML = '<p>Hover over a city</p>';
+            }
+        });
+          /*Display hurricane activitiy on hover*/
           map.on('mouseover', 'hurricanes', function(e) {
             map.getCanvas().style.cursor = 'pointer';
-            var splash = map.queryRenderedFeatures(e.point, {
-              layers: ['hurricanes']
-            });
+            var splash = map.queryRenderedFeatures(e.point, { layers: ['hurricanes'] });
             if (splash.length > 0) {
              document.getElementById('hd').innerHTML = '<h2>Hurricane Touchdown</h2>';
              document.getElementById('pd').innerHTML = '<h3><strong>' + splash[0].properties.Project_Na + '</strong></h3><p><strong><em>';
@@ -74,46 +66,71 @@
                 document.getElementById('pd').innerHTML = '<p>Hover over a city</p>';
               }
           });
-            /*Earthquake hover display*/
+            /*Dispay Earthquake activity on hover*/
           map.on('mouseover', 'earthquakes', function(e) {
             map.getCanvas().style.cursor = 'pointer';
-            var earthq = map.queryRenderedFeatures(e.point, {
-              layers: ['earthquakes']
-            });
+            var earthq = map.queryRenderedFeatures(e.point, { layers: ['earthquakes']});
             if (earthq.length > 0) {
               document.getElementById('hd').innerHTML = '<h2>Earthquake</h2>'
-             document.getElementById('pd').innerHTML = '<h3><strong>' + earthq[0].properties.place + '</strong></h3><p><strong><em>' + earthq[0].properties.mag + '</strong> magnitude </em></p>';
+              document.getElementById('pd').innerHTML = '<h3><strong>' + earthq[0].properties.place + '</strong></h3><p><strong><em>' + earthq[0].properties.mag + '</strong> magnitude </em></p>';
               } else {
                 document.getElementById('pd').innerHTML = '<p>Hover over a city</p>';
               }
           });
-            /*Volcano hover display*/
+            /*Display active volcanos on hover*/
           map.on('mouseover', 'volcano', function(e) {
             map.getCanvas().style.cursor = 'pointer';
-            var eruptions = map.queryRenderedFeatures(e.point, {
-              layers: ['volcano']
-            });
+            var eruptions = map.queryRenderedFeatures(e.point, { layers: ['volcano'] });
             if (eruptions.length > 0) {
               document.getElementById('hd').innerHTML = '<h2>Volcano</h2>'
-             document.getElementById('pd').innerHTML = '<h3><strong>' + eruptions[0].properties.Subregion + '</strong></h3><p><strong><em>' + eruptions[0].properties.H_active + '</strong> active </em></p>';
+              document.getElementById('pd').innerHTML = '<h3><strong>' + eruptions[0].properties.Subregion + '</strong></h3><p><strong><em>' + eruptions[0].properties.H_active + '</strong> active </em></p>';
               } else {
                 document.getElementById('pd').innerHTML = '<p>Hover over a city</p>';
               }
           });
-          /*Flood hover display*/
+          /*Display flood information on hover*/
           map.on('mouseover', 'flood', function(e) {
             map.getCanvas().style.cursor = 'pointer';
-            var water = map.queryRenderedFeatures(e.point, {
-              layers: ['flood']
-            });
+            var water = map.queryRenderedFeatures(e.point, { layers: ['flood'] });
             if (water.length > 0) {
               document.getElementById('hd').innerHTML = '<h2>Flood</h2>'
-             document.getElementById('pd').innerHTML = '<h3><strong> ID ' + water[0].properties.FLD_AR_ID + '</strong></h3><p><strong><em>' + water[0].properties.SHAPE_Area + '</strong> Ft² </em></p>';
+              document.getElementById('pd').innerHTML = '<h3><strong> ID ' + water[0].properties.FLD_AR_ID + '</strong></h3><p><strong><em>' +   water[0].properties.SHAPE_Area + '</strong> Ft² </em></p>';
               } else {
                 document.getElementById('pd').innerHTML = '<p>Hover over a city</p>';
               }
           });
         });
+
+        /*store all mapbox layers into an array*/
+        var toggleableLayerIds = [ 'citydata', 'volcano', 'hurricanes', 'earthquakes', 'flood' ];
+
+        /*create buttons that toggle each layer's visibility*/
+        for (var i = 0; i < toggleableLayerIds.length; i++) {
+          var id = toggleableLayerIds[i];
+          var link = document.createElement('a');
+          link.href = '#';
+          link.className = 'active';
+          link.textContent = id;
+          /*have user's click affect mapbox layers*/
+          link.onclick = function (e) {
+            var clickedLayer = this.textContent;
+            e.preventDefault();
+            e.stopPropagation();
+            var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+            /*change css associations and property visibility via toggle*/
+            if (visibility === 'visible') {
+              map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+              this.className = '';
+            } else {
+              this.className = 'active';
+              map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+            }
+          };
+
+          /*make buttons clickable*/
+          var menuLayers = document.getElementById('menu');
+          menuLayers.appendChild(link);
+        }
     </script>
   </body>
 </html>
